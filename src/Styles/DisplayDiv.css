@@ -1,0 +1,33 @@
+div.mainDiv {
+    background-color: white;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    
+    transition: background-color 1s;
+}
+
+div.🐝 {
+    background-color: yellow;
+}
+div.🦋 {
+    background-color: aqua;
+}
+div.🌷 {
+    background-color: #c1adea;
+}
+div.😭 {
+    background-color: greenyellow;
+}
+
+
+
+span.child {
+    font-size: 8rem;
+    padding-bottom: 5rem;
+  }

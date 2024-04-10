@@ -1,0 +1,21 @@
+button.emoji {
+    background-color: rgba(200, 200, 200, 0.7);
+    border: none;
+    border-color: transparent;
+    border-radius: 0.5rem;
+    font-size: x-large;
+    width: 3.5em;
+    height: 3.5em;
+    padding: 0;
+}
+
+button.current {
+    background-color: rgba(210, 210, 210, 0.7);
+    transform: translate(0, -1rem);
+    transition: transform cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-duration: 100ms;
+}
+
+button.emoji:active {
+    opacity: 70%;
+}

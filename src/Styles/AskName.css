@@ -1,0 +1,32 @@
+div.asknamepanel {
+    background-color: white;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+
+    transform: translate(0, -10rem);
+}
+.asknamepanel p {
+    margin-bottom: 0.5rem;
+}
+
+.asknamepanel input {
+    margin-right: 10px;
+    margin-bottom: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.asknamepanel button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+}

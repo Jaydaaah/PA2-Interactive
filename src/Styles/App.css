@@ -1,0 +1,45 @@
+div.choicepanel {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+
+    flex-direction: row;
+
+    justify-content: space-evenly;
+    align-items: flex-end;
+
+}
+
+div.logout {
+    display: flex;
+    position: fixed;
+    top: 0;
+}
+.logout button {
+    color: rgb(0, 0, 0, 0.3);
+    background-color: rgb(220, 220, 220, 0.3);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.logout button:active {
+    opacity: 50%;
+}
+
+
+@media (min-width: 320px) {
+    div.choicepanel {
+        width: 100vw;
+        min-width: 240px;
+        transform: translate(0%, -10%);
+    }
+}
+
+@media (min-width: 1025px) {
+    div.choicepanel {
+        width: 50vw;
+        min-width: 200px;
+        transform: translate(+50%, -10%);
+    }
+}
