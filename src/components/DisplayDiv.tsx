@@ -1,15 +1,13 @@
 import React from "react";
 import "../Styles/DisplayDiv.css";
-import getEmoji from "../Model/Emoji.js";
+import { useEmoji } from "../Context/Emoji.js";
 
-interface Props {
-    emojiIndex: number;
-}
+const DisplayDiv: React.FC = () => {
+    const { emoji } = useEmoji();
 
-const DisplayDiv: React.FC<Props> = ({ emojiIndex }) => {
     return <>
-    <div className={`mainDiv ${getEmoji(emojiIndex)}`}>
-        <span className="child">{getEmoji(emojiIndex)}</span>
+    <div className={`mainDiv ${emoji.char}`}>
+        <span className="child">{emoji.char}</span>
     </div>
     </>
 }

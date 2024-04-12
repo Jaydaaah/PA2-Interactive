@@ -1,54 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import MainDisplay from './components/MainDisplay';
+
+// Components
+import AskName from './components/AskName';
+
+// Actions
+import { removeUser } from './Action/database';
+
+// Context
+import { EmojiProvider } from './Context/Emoji';
 
 // Stylesheets
 import './Styles/Style.css';
 import './Styles/App.css';
-import AskName from './components/AskName';
-import { removeUser, setChoice } from './Action/database';
+import { AuthProvider, defineNewAuth, emptyAuth } from './Context/Auth';
+import { removeSessionAuth } from './Action/session';
 
 
 function App() {
-  const [emojiIndex, setEmojiIndex] = useState(0);
-  const [name, setName] = useState('');
-  const [uuid, setuuid] = useState('');
+  const _auth = useState(emptyAuth);
+  const [auth, setAuth] = _auth;
 
-  const logOutClickHandler = () => {
-      sessionStorage.removeItem('name');
-      sessionStorage.removeItem('uuid');
-      setName('');
-      setuuid('');
-      setEmojiIndex(0);
-      removeUser(uuid);
-  };
+  const logOutClickHandler = useCallback(() => {
+    removeSessionAuth();
+    removeUser(auth);
+    setAuth(emptyAuth);
+  }, [auth]);
 
   useEffect(() => {
-    let session_saved_name = sessionStorage.getItem('name');
-    let session_saved_uuid = sessionStorage.getItem('uuid');
+    const session_saved_name = sessionStorage.getItem('name');
+    const session_saved_uuid = sessionStorage.getItem('uuid');
     if (session_saved_name && session_saved_uuid) {
-      setName(session_saved_name);
-      setuuid(session_saved_uuid);
-      setChoice(session_saved_uuid, session_saved_name);
+      setAuth(defineNewAuth(session_saved_name, session_saved_uuid));
     }
     else {
-      setName('');
+      setAuth(emptyAuth);
     }
-  }, [name, uuid]);
-
-  useEffect(() => {
-    if (uuid && name) {
-      setChoice(uuid, name, emojiIndex);
-    }
-  }, [emojiIndex]);
+  }, []);
 
   return (
     <>
-    {
-      (name == '' ?
-      <AskName setterName={setName}/> : 
-      <MainDisplay emojiIndex={emojiIndex} setEmojiIndex={setEmojiIndex} logOutHandler={logOutClickHandler}/>)
-    }
-    
+    <AuthProvider auth={_auth}>
+      {
+      (auth == emptyAuth ?
+      <AskName/> :
+      <EmojiProvider>
+        <MainDisplay logOutHandler={logOutClickHandler}/>
+      </EmojiProvider>)
+      }
+    </AuthProvider>
     </>
   )
 }

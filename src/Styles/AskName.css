@@ -30,3 +30,11 @@ div.asknamepanel {
     padding: 8px 16px;
     border-radius: 5px;
 }
+
+.asknamepanel button:disabled {
+    background-color: lightgray;
+}
+
+.asknamepanel button:enabled:active {
+    opacity: 0.7;
+}

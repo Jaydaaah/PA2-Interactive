@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "../Styles/Choice.css";
-import getEmoji from "../Model/Emoji.js";
+import { Emoji, useEmoji } from "../Context/Emoji";
 
 interface Props {
-    emojiFix: number;
-    currentEmojiSelected: number;
-    setter: React.Dispatch<React.SetStateAction<number>>
+    Value: Emoji
 }
 
-const Choice: React.FC<Props> = ({ emojiFix, currentEmojiSelected, setter }) => {
-    const clickHandler = () => {
-        setter(emojiFix)
-    };
+const Choice: React.FC<Props> = ({ Value }) => {
+    const { emoji, setEmoji} = useEmoji();
 
-    return <button className={`emoji ${currentEmojiSelected == emojiFix ? 'current' : ''}`} onClick={clickHandler}>
-        <span>{getEmoji(emojiFix)}</span>
+    const clickHandler = useCallback(() => {
+        if (setEmoji) {
+            setEmoji(Value);
+        }
+    }, []);
+
+    return <button className={`emoji ${emoji === Value ? 'current' : ''}`} onClick={clickHandler}>
+        <span>{Value.char}</span>
     </button>
 }
 

@@ -1,42 +1,42 @@
 import React, { useEffect } from 'react';
 import guidGenerator from '../Action/uuidgen';
 
-// Models
-import { getEmojiColor } from '../Model/Emoji';
-
 // Components
 import Choice from './Choice';
 import DisplayDiv from './DisplayDiv';
 
+// Context
+import { EmojiList, useEmoji } from '../Context/Emoji';
+import toggleTheme from '../Action/toggleTheme';
+import { useAuth } from '../Context/Auth';
+import { setChoice } from '../Action/database';
+
 interface Props {
-    emojiIndex: number;
-    setEmojiIndex: React.Dispatch<React.SetStateAction<number>>;
-    logOutHandler: () => void;
+  logOutHandler: () => void;
 }
 
-const MainDisplay: React.FC<Props> = ({ emojiIndex, setEmojiIndex, logOutHandler }) => {
-    const toggleTheme = () => {
-      const metaTag = document.querySelector('meta[name="theme-color"]');
-      const color = getEmojiColor(emojiIndex);
-      metaTag?.setAttribute("content", color);
-    };
+const MainDisplay: React.FC<Props> = ({ logOutHandler }) => {
+  const { emoji } = useEmoji();
+  const { auth } = useAuth();
 
-  
-    useEffect(() => toggleTheme(), [emojiIndex]);  
+  useEffect(() => {
+    toggleTheme(emoji);
+    setChoice(auth, emoji.value);
+  }, [emoji, auth]);
 
-    return <>
-    <DisplayDiv emojiIndex={emojiIndex}></DisplayDiv>
-    <div className='choicepanel'>
-      {[0, 1, 2, 3].map(
-        (i) => {
-          return <Choice key={guidGenerator()} emojiFix={i} currentEmojiSelected={emojiIndex} setter={setEmojiIndex}></Choice>
-        }
-      )}
-    </div>
-    <div className='logout'>
-      <button onClick={logOutHandler}>Logout</button>
-    </div>
-    </>
+  return <>
+  <DisplayDiv/>
+  <div className='choicepanel'>
+    {EmojiList.map(
+      (emoji) => {
+        return <Choice key={guidGenerator()} Value={emoji}></Choice>
+      }
+    )}
+  </div>
+  <div className='logout'>
+    <button onClick={logOutHandler}>Logout</button>
+  </div>
+  </>
 };
 
 export default MainDisplay;

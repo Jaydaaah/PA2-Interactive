@@ -1,33 +1,45 @@
-import React, { useState } from "react";
-import '../Styles/AskName.css';
-import { setChoice } from "../Action/database";
+import React, { useRef, useState } from "react";
+
+// Actions
 import guidGenerator from '../Action/uuidgen';
 
-interface Props {
-    setterName: React.Dispatch<React.SetStateAction<string>>
-}
+// Context
+import { defineNewAuth, useAuth } from "../Context/Auth";
 
-const AskName: React.FC<Props> = ({ setterName }) => {
+// StyleSheet
+import '../Styles/AskName.css';
+import { setSessionAuth } from "../Action/session";
+
+
+const AskName: React.FC = () => {
+    const {setAuth} = useAuth();
     const [name, setName] = useState('');
+    const Btn = useRef<HTMLButtonElement>(null);
 
     const onChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.currentTarget.value;
-        setName(newValue);
+        setName(event.currentTarget.value);
     };
+
+    const onKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            Btn.current?.click()
+        }
+    }
 
     const onClickHandler = () => {
         const uuid = guidGenerator();
-        sessionStorage.setItem('name', name);
-        sessionStorage.setItem('uuid', uuid);
-        setterName(name);
-        setChoice(uuid, name);
+        if (setAuth) {
+            const new_auth = defineNewAuth(name, uuid);
+            setAuth(new_auth);
+            setSessionAuth(new_auth);
+        }
     }
 
     return <>
     <div className="asknamepanel">
         <p>Enter your name here: </p>
-        <input type="text" value={name} onChange={onChangedHandler}></input>
-        <button onClick={onClickHandler}>Okay</button>
+        <input type="text" placeholder="Your Name" value={name} onChange={onChangedHandler} onKeyDown={onKeyDownHandler}></input>
+        <button ref={Btn} onClick={onClickHandler} disabled={name.trim() == ""}>Okay</button>
     </div>
     </>
 };
