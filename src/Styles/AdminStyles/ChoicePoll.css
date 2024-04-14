@@ -1,0 +1,56 @@
+div.ChoiceBar {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 5px;
+    position: relative;
+
+    font-size: 3rem;
+
+    width: 85%;
+    height: 100px;
+    margin: 0.5rem;
+    transform: translate(7vw, 0);
+
+    box-shadow: 3px 3px 2px grey;
+}
+
+div.disabled {
+    opacity: 50%;
+    background-color: white;
+}
+
+div.ChoiceBar .progress {
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+
+    transition: width 1500ms;
+}
+
+div.ChoiceBar .text-container {
+    font-size: 1em;
+    padding: 1.2rem;
+}
+
+div.ChoiceBar .text-container span {
+    position: absolute;
+}
+
+div.ChoiceBar .text-container input {
+    background-color: transparent ;
+    border: none;
+    width: 100%;
+    
+    font-size: 0.8em;
+    padding: 5px;
+    padding-left: 5rem;
+    outline: none;
+}
+
+div.ChoiceBar i {
+    position: absolute;
+    right: 1rem;
+    font-size: 0.8em;
+}

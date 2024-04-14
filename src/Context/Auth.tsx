@@ -1,4 +1,7 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
+import { removeSessionAuth, setSessionAuth } from "../Action/session";
+import { removeUser } from "../Action/database";
+import guidGenerator from "../Action/uuidgen";
 
 export interface Authentication {
     name: string;
@@ -19,14 +22,15 @@ const AuthContext = createContext<Authentication>(emptyAuth);
 const SetterAuthContext = createContext<React.Dispatch<React.SetStateAction<Authentication>> | undefined>(undefined);
 
 interface Prop {
-    auth: [Authentication, React.Dispatch<React.SetStateAction<Authentication>>];
     children: React.ReactNode;
 }
 
-const AuthProvider: React.FC<Prop> = ({ auth, children }) => {
+const AuthProvider: React.FC<Prop> = ({ children }) => {
+    const [auth, setAuth] = useState(emptyAuth);
+
     return <>
-    <AuthContext.Provider value={auth[0]}>
-        <SetterAuthContext.Provider value={auth[1]}>
+    <AuthContext.Provider value={auth}>
+        <SetterAuthContext.Provider value={setAuth}>
             {children}
         </SetterAuthContext.Provider>
     </AuthContext.Provider>
@@ -34,9 +38,30 @@ const AuthProvider: React.FC<Prop> = ({ auth, children }) => {
 };
 
 const useAuth = () => {
+    const auth = useContext(AuthContext);
+    const setAuth = useContext(SetterAuthContext);
+
+    const login = useCallback((name: string, uuid: string | null = null) => {
+        if (setAuth && name) {
+            const new_auth = defineNewAuth(name, uuid ?? guidGenerator());
+            setAuth(new_auth);
+            setSessionAuth(new_auth);
+        }
+    }, [setAuth]);
+
+    const logout = useCallback(() => {
+        removeSessionAuth();
+        removeUser(auth);
+        if (setAuth) {
+            setAuth(emptyAuth);
+        }
+      }, [auth]);
+
     return {
-        auth: useContext(AuthContext),
-        setAuth: useContext(SetterAuthContext)
+        auth: auth,
+        setAuth: setAuth,
+        login: login,
+        logout: logout
     }
 };
 

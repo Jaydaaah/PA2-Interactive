@@ -11,13 +11,10 @@ import toggleTheme from '../Action/toggleTheme';
 import { useAuth } from '../Context/Auth';
 import { setChoice } from '../Action/database';
 
-interface Props {
-  logOutHandler: () => void;
-}
 
-const MainDisplay: React.FC<Props> = ({ logOutHandler }) => {
+const MainDisplay: React.FC = () => {
   const { emoji } = useEmoji();
-  const { auth } = useAuth();
+  const { auth, logout } = useAuth();
 
   useEffect(() => {
     toggleTheme(emoji);
@@ -34,7 +31,7 @@ const MainDisplay: React.FC<Props> = ({ logOutHandler }) => {
     )}
   </div>
   <div className='logout'>
-    <button onClick={logOutHandler}>Logout</button>
+    <button onClick={logout}>Logout</button>
   </div>
   </>
 };

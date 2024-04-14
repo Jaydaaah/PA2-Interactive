@@ -1,18 +1,14 @@
 import React, { useRef, useState } from "react";
 
-// Actions
-import guidGenerator from '../Action/uuidgen';
-
 // Context
-import { defineNewAuth, useAuth } from "../Context/Auth";
+import { useAuth } from "../Context/Auth";
 
 // StyleSheet
 import '../Styles/AskName.css';
-import { setSessionAuth } from "../Action/session";
 
 
 const AskName: React.FC = () => {
-    const {setAuth} = useAuth();
+    const { login } = useAuth();
     const [name, setName] = useState('');
     const Btn = useRef<HTMLButtonElement>(null);
 
@@ -26,14 +22,7 @@ const AskName: React.FC = () => {
         }
     }
 
-    const onClickHandler = () => {
-        const uuid = guidGenerator();
-        if (setAuth) {
-            const new_auth = defineNewAuth(name, uuid);
-            setAuth(new_auth);
-            setSessionAuth(new_auth);
-        }
-    }
+    const onClickHandler = () => login(name);
 
     return <>
     <div className="asknamepanel">

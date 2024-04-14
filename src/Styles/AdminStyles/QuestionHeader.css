@@ -1,0 +1,49 @@
+div.adminFullDiv {
+    margin: 0em;
+    height: 100vh;
+    overflow: hidden;
+}
+
+div.adminFullDiv textarea {
+    position: relative;
+    width: 90%;
+    height: 30vh;
+    border-radius: 1rem;
+
+    margin: 2rem 0rem;
+    padding: 1rem;
+
+    font-size: 4rem;
+    text-align: center;
+    resize: none;
+
+    transform: translate(5vw, 0);
+    
+    box-shadow: 4px 4px 5px grey;
+
+    outline: none;
+}
+
+div.adminFullDiv textarea:focus {
+    box-shadow: 4px 4px 5px black;
+}
+
+div.adminToolbox {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    right: 0;
+
+    opacity: 50%;
+}
+
+div.adminToolbox button {
+    background-color: transparent;
+    border: none;
+    width: 7vw;
+    padding: 0.5em 0em;
+}
+div.adminToolbox button:hover {
+    color: grey;
+    cursor: pointer;
+}

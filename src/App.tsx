@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import MainDisplay from './components/MainDisplay';
 
 // Components
 import AskName from './components/AskName';
-
-// Actions
-import { removeUser } from './Action/database';
 
 // Context
 import { EmojiProvider } from './Context/Emoji';
@@ -13,44 +10,42 @@ import { EmojiProvider } from './Context/Emoji';
 // Stylesheets
 import './Styles/Style.css';
 import './Styles/App.css';
-import { AuthProvider, defineNewAuth, emptyAuth } from './Context/Auth';
-import { removeSessionAuth } from './Action/session';
+import { emptyAuth, useAuth } from './Context/Auth';
+import Admin from './components/Admin';
+import { SelectedItemProvider } from './components/AdminComponents/Context/selectedItem';
 
 
 function App() {
-  const _auth = useState(emptyAuth);
-  const [auth, setAuth] = _auth;
-
-  const logOutClickHandler = useCallback(() => {
-    removeSessionAuth();
-    removeUser(auth);
-    setAuth(emptyAuth);
-  }, [auth]);
+  const {auth, login, logout} = useAuth();
 
   useEffect(() => {
     const session_saved_name = sessionStorage.getItem('name');
     const session_saved_uuid = sessionStorage.getItem('uuid');
     if (session_saved_name && session_saved_uuid) {
-      setAuth(defineNewAuth(session_saved_name, session_saved_uuid));
+      login(session_saved_name, session_saved_uuid);
     }
     else {
-      setAuth(emptyAuth);
+      logout();
     }
   }, []);
 
   return (
     <>
-    <AuthProvider auth={_auth}>
-      {
-      (auth == emptyAuth ?
-      <AskName/> :
+    {
+    (auth == emptyAuth ?
+    <AskName/> : (
+      auth.name === "admin321" ?
+      <SelectedItemProvider>
+        <Admin/>
+      </SelectedItemProvider> :
       <EmojiProvider>
-        <MainDisplay logOutHandler={logOutClickHandler}/>
-      </EmojiProvider>)
-      }
-    </AuthProvider>
+        <MainDisplay/>
+      </EmojiProvider>
+    )
+    )
+    }
     </>
   )
 }
 
-export default App
+export default App;

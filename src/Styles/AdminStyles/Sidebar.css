@@ -1,0 +1,72 @@
+div.sideBar {
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 100vh;
+
+    background-color: rgba(95, 158, 160, 0.93);
+    color: white;
+
+    transition: background-color 100ms;
+}
+
+div.hide {
+    background-color: transparent;
+}
+
+div.sideBar Button {
+    background: transparent;
+    border: none;
+
+    color: inherit;
+    font-size: 1.1rem;
+}
+
+div.sideBar Button.menuBTN {
+    margin: 0.3rem;
+    border-radius: 1.5em;
+    padding: 0.2em 0em 0em 0em;
+    width: 50px;
+    height: 50px;
+}
+
+div.sideBar Button.floating {
+    height: 5em;
+    bottom: 0;
+}
+
+div.sideBar Button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+nav.sideBar {
+    overflow: hidden auto;
+    width: 15rem;
+    height: 100vh;
+
+    transition: width;
+    transition-duration: 200ms;
+}
+
+nav.hide {
+    opacity: 0%;
+    width: 0rem;
+}
+
+div.sideBar li {
+    min-width: 15rem;
+    padding: 1rem 0rem;
+    text-align: center;
+}
+
+div.sideBar li:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+div.sideBar li.current {
+    background-color: rgba(255, 255, 255, 0.2);
+}
