@@ -64,7 +64,7 @@ const QuestionHeader: React.FC = () => {
     const OnBlurHandler = useCallback(() => {
         if (hasEdit) {
             const index = getIndexItem(selectedItem);
-            selectedItem.text = text.substring(0, 8);
+            selectedItem.text = text.substring(0, 16) + (text.length >= 16 ?"..." : "");
             selectedItem.poll.question = text;
             editIteminlist(index, selectedItem);
         }
