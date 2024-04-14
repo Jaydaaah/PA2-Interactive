@@ -66,12 +66,12 @@ const ChoicePoll: React.FC<Props> = ({ index, vote, isdisable, editMode }) => {
     <div className={"ChoiceBar " + (isdisable ? "disabled" : "")}>
         <div className="progress" style={{
             background: EmojiList[index].color,
-            width: `${isdisable ? 0 : percent}%`    
+            width: `${isdisable ? 0 : percent()}%`    
         }}></div>
         <div className="text-container">
             <span>{EmojiList[index].char}</span>
             <input type="text" disabled={isdisable} onBlur={OnBlurHandler} onChange={onChangeHandler} value={text}/>
-            <i>{isdisable ? "" : `${percent}%`}</i>
+            <i>{isdisable ? "" : `${vote.count} votes`}</i>
         </div>
     </div>
     </>
