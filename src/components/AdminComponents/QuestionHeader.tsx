@@ -16,14 +16,14 @@ const QuestionHeader: React.FC = () => {
     const [hasEdit, setHasEdit] = useState(false);
     const [isdisable, setIsdisable] = useState(false);
     const [text, setText] = useState('');
-    const [computeScore, setComputeScore] = useState<[number, number, number, number]>([0, 0, 0, 0]);
+    const [computeScore, setComputeScore] = useState<[number, number, number, number, number]>([0, 0, 0, 0, 0]);
 
     // initialize the text input each time selected item changes
     useEffect(() => {
         setText(selectedItem.poll.question);
         setHasEdit(false);
         setIsdisable(selectedItem == emptyItem);
-        setComputeScore([0, 0, 0, 0]);
+        setComputeScore([0, 0, 0, 0, 0]);
     }, [selectedItem])
 
     // toggle edit mode
@@ -35,13 +35,13 @@ const QuestionHeader: React.FC = () => {
     }, [editMode]);
 
     // compute percentage
-    const ComputeHandler = useCallback((compute_score: [number, number, number, number]) => {
+    const ComputeHandler = useCallback((compute_score: [number, number, number, number, number]) => {
         setComputeScore(compute_score);
     }, [setComputeScore]);
 
     // reset computer score
     const onClickResetHandler = useCallback(() => {
-        setComputeScore([0, 0, 0, 0]);
+        setComputeScore([0, 0, 0, 0, 0]);
         resetChoices();
     }, [setComputeScore]);
 
@@ -87,7 +87,12 @@ const QuestionHeader: React.FC = () => {
         <div className="choicepolloutdiv">
             {
                 [0, 1, 2, 3].map((i) => {
-                    return <ChoicePoll key={i} index={i} percent={computeScore[i]} isdisable={isdisable} editMode={editMode}/>
+                    return <ChoicePoll key={i} index={i}
+                    vote={{
+                        count: computeScore[i],
+                        base: computeScore[4]
+                    }}
+                    isdisable={isdisable} editMode={editMode}/>
                 })
             }
         </div>

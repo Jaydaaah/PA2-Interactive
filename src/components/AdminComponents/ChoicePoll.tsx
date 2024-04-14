@@ -10,12 +10,15 @@ import '../../Styles/AdminStyles/ChoicePoll.css';
 
 interface Props {
     index: number
-    percent: number;
+    vote: {
+        count: number,
+        base: number
+    };
     isdisable: boolean;
     editMode: boolean;
 }
 
-const ChoicePoll: React.FC<Props> = ({ index, percent, isdisable, editMode }) => {
+const ChoicePoll: React.FC<Props> = ({ index, vote, isdisable, editMode }) => {
     const {selectedItem, editIteminlist, getIndexItem} = useSelectedItem();
     const [text, setText] = useState('');
     const [hasEdit, setHasEdit] = useState(false);
@@ -51,6 +54,13 @@ const ChoicePoll: React.FC<Props> = ({ index, percent, isdisable, editMode }) =>
             setHasEdit(true);
         }
     }, [editMode]);
+
+    const percent = useCallback(() => {
+        if (vote.base > 0) {
+            return ((vote.count / vote.base) * 100);
+        }
+        return 0;
+    }, [vote]);
 
     return <>
     <div className={"ChoiceBar " + (isdisable ? "disabled" : "")}>

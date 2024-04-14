@@ -43,15 +43,8 @@ function resetChoices() {
     });
 }
 
-function perc(val: number, base: number) {
-    if (base > 0) {
-        return ((val / base) * 100);
-    }
-    return 0;
-}
-
 // admin functions
-function computeUser(callback: (compute_score: [number, number, number, number]) => void) {
+function computeUser(callback: (compute_score: [number, number, number, number, number]) => void) {
     const compute_score: [number, number, number, number, number] = [0, 0, 0, 0, 0];
     const reference = ref(database, 'users/');
     get(reference)
@@ -64,12 +57,7 @@ function computeUser(callback: (compute_score: [number, number, number, number])
                     compute_score[compute_score.length - 1]++;
                 }
             });
-            callback([
-                perc(compute_score[0], compute_score[4]),
-                perc(compute_score[1], compute_score[4]),
-                perc(compute_score[2], compute_score[4]),
-                perc(compute_score[3], compute_score[4]),
-        ]);
+            callback(compute_score);
         }
         else {
             console.log(`snapshot not existing`);
