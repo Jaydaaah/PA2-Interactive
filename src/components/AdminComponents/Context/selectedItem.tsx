@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from "react";
-import guidGenerator from "../../../Action/uuidgen";
+import {epochGenerator} from "../../../Action/uuidgen";
 
 export interface Item {
     id: string,
@@ -13,7 +13,7 @@ export interface Item {
 const defineNewItem = (text: string, question: string = "", ans: [string, string, string, string] = ["", "", "", ""],
                         _id: string | null = null) => {
     const new_item: Item = {
-        id: _id ?? guidGenerator(),
+        id: _id ?? epochGenerator().toString(),
         text: text,
         poll: {
             question: question,
